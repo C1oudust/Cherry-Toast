@@ -3,19 +3,23 @@ import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cherry Toast Example',
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
+      themeMode: ThemeMode.system,
+      home: const Scaffold(
         body: ExampleApp(),
       ),
     );
@@ -23,127 +27,241 @@ class MyApp extends StatelessWidget {
 }
 
 class ExampleApp extends StatelessWidget {
+  const ExampleApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             '🍒 🍒',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
-          Text(
+          const Text(
             'Cherry Toasts',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          ElevatedButton(
-            child: Text('🍒 Info Cherry Toast'),
-            onPressed: () {
-              CherryToast.info(
-                title: Text('User added'),
-                action: Text('Display information'),
-                actionHandler: () {},
-              ).show(context);
-            },
-          ),
           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Info Cherry Toast'),
+              onPressed: () {
+                CherryToast.info(
+                  disableToastAnimation: true,
+                  title: const Text(
+                    'Cherry toast title',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  action: const Text('Toast content description'),
+                  inheritThemeColors: true,
+                  actionHandler: () {},
+                  onToastClosed: () {},
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
-          ElevatedButton(
-            child: Text('🍒 Error Cherry Toast'),
-            onPressed: () {
-              CherryToast.error(
-                title: Text(''),
-                enableIconAnimation: false,
-                displayTitle: false,
-                description: Text('Invalid account information'),
-                animationType: AnimationType.fromRight,
-                animationDuration: Duration(milliseconds: 1000),
-                autoDismiss: true,
-              ).show(context);
-            },
-          ),
           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Cherry Toast Without Animation'),
+              onPressed: () {
+                CherryToast.info(
+                  disableToastAnimation: true,
+                  inheritThemeColors: true,
+                  autoDismiss: false,
+                  toastPosition: Position.top,
+                  title: const Text(
+                    'Cherry toast title',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  action: const Text('Toast content description'),
+                  actionHandler: () {},
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
-          ElevatedButton(
-            child: Text('🍒 Bottom Cherry Toast'),
-            onPressed: () {
-              CherryToast(
-                icon: Icons.alarm_add,
-                themeColor: Colors.pink,
-                title: Text(''),
-                displayTitle: false,
-                description: Text('A bottom cherry toast example'),
-                toastPosition: Position.bottom,
-                animationDuration: Duration(milliseconds: 1000),
-                autoDismiss: true,
-              ).show(context);
-            },
-          ),
           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Error Cherry Toast'),
+              onPressed: () {
+                CherryToast.error(
+                  enableIconAnimation: false,
+                  inheritThemeColors: true,
+                  description: const Text('Invalid account information'),
+                  animationType: AnimationType.fromRight,
+                  animationDuration: const Duration(milliseconds: 1000),
+                  autoDismiss: true,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
-          ElevatedButton(
-            child: Text('🍒 Warning Cherry Toast'),
-            onPressed: () {
-              CherryToast.warning(
-                title: Text(''),
-                displayTitle: false,
-                description:
-                    Text('All information may be deleted after this action'),
-                animationType: AnimationType.fromTop,
-                action: Text('Backup data'),
-                actionHandler: () {},
-              ).show(context);
-            },
-          ),
           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Bottom Cherry Toast'),
+              onPressed: () {
+                CherryToast(
+                  icon: Icons.alarm_add,
+                  themeColor: Colors.pink,
+                  description: const Text('A bottom cherry toast example'),
+                  toastPosition: Position.bottom,
+                  animationDuration: const Duration(milliseconds: 1000),
+                  autoDismiss: true,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
-          ElevatedButton(
-            child: Text('🍒 Success Cherry Toast'),
-            onPressed: () {
-              CherryToast.success(
-                title: Text('The simplest cherry toast'),
-                borderRadius: 0,
-              ).show(context);
-            },
-          ),
           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Center Cherry Toast'),
+              onPressed: () {
+                CherryToast(
+                  icon: Icons.android,
+                  themeColor: Colors.green,
+                  title: const Text(''),
+                  description: const Text('A center cherry toast example'),
+                  toastPosition: Position.center,
+                  animationDuration: const Duration(milliseconds: 1000),
+                  autoDismiss: true,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
-          ElevatedButton(
-            child: Text('🍒 Right Layout Cherry Toast'),
-            onPressed: () {
-              CherryToast(
-                icon: Icons.car_repair,
-                themeColor: Colors.green,
-                title: Text(''),
-                displayTitle: false,
-                description: Text('هذا مثال تصميم من اليمين'),
-                toastPosition: Position.bottom,
-                layout: ToastLayout.rtl,
-                animationType: AnimationType.fromRight,
-                action: Text(
-                  'انقر هنا',
-                  style: TextStyle(color: Colors.green),
-                ),
-                animationDuration: Duration(milliseconds: 1000),
-                autoDismiss: true,
-              ).show(context);
-            },
+          SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Warning Cherry Toast'),
+              onPressed: () {
+                CherryToast.warning(
+                  inheritThemeColors: true,
+                  description: const Text(
+                      'All information may be deleted after this action',),
+                  animationType: AnimationType.fromTop,
+                  action: const Text('Backup data'),
+                  actionHandler: () {},
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Success Cherry Toast'),
+              onPressed: () {
+                CherryToast.success(
+                  inheritThemeColors: true,
+                  title: const Text('The simplest cherry toast'),
+                  borderRadius: 0,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🍒 Right Layout Cherry Toast'),
+              onPressed: () {
+                CherryToast(
+                  inheritThemeColors: true,
+                  icon: Icons.car_repair,
+                  description: const Text('This is a description message'),
+                  themeColor: Colors.green,
+                  toastPosition: Position.bottom,
+                  textDirection: TextDirection.rtl,
+                  animationType: AnimationType.fromRight,
+                  action: const Text(
+                    'انقر هنا',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  animationDuration: const Duration(milliseconds: 1000),
+                  autoDismiss: true,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🇹🇳 Arabic Cherry Toast'),
+              onPressed: () {
+                CherryToast.info(
+                  toastPosition: Position.top,
+                  title: const Text(
+                    'هذا مثال للإنذار',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  action: const Text('هذا النص كتب بالعربية'),
+                  actionHandler: () {},
+                  textDirection: TextDirection.rtl,
+                ).show(context);
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              child: const Text('🇰🇷 Korean Cherry Toast'),
+              onPressed: () {
+                CherryToast.info(
+                  toastPosition: Position.top,
+                  title: const Text(
+                    '이건 제목이야',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  action: const Text('내용 설명입니다'),
+                  actionHandler: () {},
+                ).show(context);
+              },
+            ),
           ),
         ],
       ),

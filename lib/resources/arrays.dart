@@ -8,6 +8,7 @@ enum CherryType {
 
 enum Position {
   top,
+  center,
   bottom,
 }
 
@@ -16,9 +17,4 @@ enum AnimationType {
   fromLeft,
   fromRight,
   fromBottom,
-}
-
-enum ToastLayout {
-  ltr,
-  rtl,
 }

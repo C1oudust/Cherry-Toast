@@ -25,28 +25,18 @@
   
 
 - Support all platforms
-
 - Top and Bottom display position
-
 - Customizable background color
-
+- Support RTL layout rendering (for arabic text)
 - Multiple built-in themes
-
 - Built-in animations
-
 - Support null safety
-
 - Elegant design
-
 - Full customizable
-
 - Heartbeat animation on icons
-
 - Customizable icon size and color and display
-
 - Dismissable notification
-
-  
+- Customizable toast constraints, height and width
 
 ## Installation
 
@@ -58,7 +48,7 @@ To add cherry toast to your project add this line to your `pubspec.yaml` file
 
 ```yaml
 dependencies:
-    cherry_toast: ^1.3.1
+    cherry_toast: ^1.11.0
 ```
 
   
@@ -67,97 +57,129 @@ dependencies:
 
 ```dart
 ///Text widget displayed as a title in the toast
-///required parameter for all toast types
-final  Text  title;
+  ///required parameter for all toast types
+  final Text? title;
 
-///Text widget displayed as a description in the toast
-final  Text?  description;
+  ///Text widget displayed as a description in the toast
+  final Text? description;
 
-///The action button displayed below description
-///by default there's no action added
-final  Text?  action;
+  ///THe action button displayed below description
+  ///by default there's no action added
+  final Text? action;
 
-///indicates whether display or not the title
-final  bool  displayTitle;
+  ///the toast icon, it's required when using the default constructor
+  ///
+  late IconData icon;
 
-///the toast icon, it's required when using the default constructor
-late  IconData  icon;
+  ///the Icon color
+  ///this parameter is only available on the default constructor
+  ///for the built-in themes the color  will be set automatically
+  late Color iconColor;
+  //background color of container
+  final Color backgroundColor;
+  //box shadow color of container
+  final Color shadowColor;
+  //Custom widget displayed at the place of the predefined icons
+  final Widget? iconWidget;
 
-///the Icon color
-///this parameter is only available on the default constructor
-///for the built-in themes the color will be set automatically
-late  Color  iconColor;
+  ///the icon size
+  ///by default is 20
+  ///this parameter is available in default constructor
+  late double iconSize;
 
-///background color of container
-final  Color  backgroundColor;
-///box shadow color of container
-final Color shadowColor;
-//Custom widget displayed at the place of the predefined icons
-final  Widget?  iconWidget;
+  ///the toast display postion, possible values
+  ///```dart
+  ///{
+  ///top,
+  ///bottom
+  ///}
+  ///```
+  final Position toastPosition;
 
-///the icon size
-///by default is 20
-///this parameter is available in default constructor
-late  double  iconSize;
+  ///The color that will be applied on the circle behind the icon
+  ///for better rendering the action button must have the same color
+  ///
+  late Color themeColor;
 
-///the toast display postion, possible values
-///{
-///top,
-///bottom
-///}
-final  Position  toastPosition;
+  ///the function invoked when clicking on the action button
+  ///
+  final Function? actionHandler;
 
-///The color that will be applied on the circle behind the icon
-///for better rendering the action button must have the same color
-late  Color  themeColor;
+  ///The duration of the animation by default it's 1.5 seconds
+  ///
+  final Duration animationDuration;
 
-///the function invoked when clicking on the action button
-final  Function?  actionHandler;
+  ///the animation curve by default it's set to `Curves.ease`
+  ///
+  final Cubic animationCurve;
 
-///The duration of the animation by default it's 1.5 seconds
-final  Duration  animationDuration;
+  ///The animation type applied on the toast
+  ///```dart
+  ///{
+  ///fromTop,
+  ///fromLeft,
+  ///fromRight
+  ///}
+  ///```
+  final AnimationType animationType;
 
-///the animation curve by default it's set to `Curves.ease`
-final  Cubic  animationCurve;
+  ///indicates whether the toast will be hidden automatically or not
+  ///
+  final bool autoDismiss;
 
-///The animation type applied on the toast
-///{
-///fromTop,
-///fromLeft,
-///fromRight,
-///fromBottom,
-///}
-final  AnimationType  animationType;
+  ///the duration of the toast if [autoDismiss] is true
+  ///by default it's 3 seconds
+  ///
+  final Duration toastDuration;
 
-///indicates whether the toast will be hidden automatically or not
-final  bool  autoDismiss;
+  ///the layout of the toast
+  ///```dart
+  ///{
+  ///ltr,
+  ///rtl
+  ///}
+  ///```
+  final ToastLayout layout;
 
-///the duration of the toast if [autoDismiss] is true
-///by default it's 3 seconds
-final  Duration  toastDuration;
+  ///Display / Hide the close button icon
+  ///by default it's true
+  final bool displayCloseButton;
 
-  
+  ///define the border radius applied on the toast
+  ///by default it's 20
+  ///
+  final double borderRadius;
 
-///the layout of the toast
-///{
-///ltr,
-///rtl
-///}
-final  ToastLayout  layout;
+  ///Define whether the icon will be  rendered or not
+  ///
+  final bool displayIcon;
 
-///Display / Hide the close button icon
-///by default it's true
-final  bool  displayCloseButton;
+  ///Define wether the animation on the icon will be rendered or not
+  ///
+  final bool enableIconAnimation;
 
-///define the border radius applied on the toast
-///by default it's 20
-final  double  borderRadius;
+  /// The attribute  is declaring a final variable named "width" of type double with a nullable value.
+  /// width attribute define the toast width
+  final double? width;
 
-///Define whether the icon will be rendered or not
-final  bool  displayIcon;
+  /// The attribute is declaring a final variable named "height" of type double with a nullable type
+  /// modifier.
+  /// height attribute define the toast height
+  final double? height;
 
-///Define wether the animation on the icon will be rendered or not
-final  bool  enableIconAnimation;
+  ///Enable taost constraints customization (by default it's null)
+  final BoxConstraints? constraints;
+
+  ///indicate whether the toast animation is enabled or not
+  ///by default the toast animation is enabled
+  final bool disableToastAnimation;
+
+  /// Indicate toast should inherit theme colors sheme, to apply in background
+  /// and shadow color.
+  final bool inheritThemeColors;
+
+  ///Callback invoked when toast get dismissed (closed by button or dismissed automtically)
+  final Function()? onToastClosed;
 ```
   
 
@@ -173,7 +195,7 @@ final  bool  enableIconAnimation;
 
 CherryToast.success(
 
-title:  "The simplest cherry toast"
+title:  Text("The simplest cherry toast", style: TextStyle(color: Colors.black))
 
 ).show(context);
 
@@ -191,9 +213,9 @@ title:  "The simplest cherry toast"
 
 CherryToast.info(
 
-title:  "User added",
+title:  Text("User added", style: TextStyle(color: Colors.black)),
 
-action:  "Display information",
+action: Text("Display information", style: TextStyle(color: Colors.black)),
 
 actionHandler: (){
 
@@ -233,15 +255,11 @@ print("Action button pressed");
 
 CherryToast.warning(
 
-title:  "",
+description:  Text("All information may be deleted after this action", style: TextStyle(color: Colors.black)),
 
-displayTitle:  false,
+animationType:  AnimationType.fromLeft,
 
-description:  "All information may be deleted after this action",
-
-animationType:  ANIMATION_TYPE.FROM_TOP,
-
-action:  "Backup data",
+action:  Text("Backup data", style: TextStyle(color: Colors.black)),
 
 actionHandler: (){
 
@@ -265,13 +283,9 @@ print("Hello World!!");
 
 CherryToast.error(
 
-title:  "",
+description:  Text("Invalid account information", style: TextStyle(color: Colors.black)),
 
-displayTitle:  false,
-
-description:  "Invalid account information",
-
-animationType:  ANIMATION_TYPE.FROM_RIGHT,
+animationType:  AnimationType.fromRight,
 
 animationDuration:  Duration(milliseconds:  1000),
 
@@ -297,13 +311,9 @@ icon:  Icons.alarm_add,
 
 themeColor:  Colors.pink,
 
-title:  "",
+description:  Text("A bottom cherry toast example", style:  TextStyle(color:  Colors.black)),
 
-displayTitle:  false,
-
-description:  "A bottom cherry toast example",
-
-toastPosition:  POSITION.BOTTOM,
+toastPosition:  Position.bottom,
 
 animationDuration:  Duration(milliseconds:  1000),
 
@@ -312,7 +322,6 @@ autoDismiss:  true
 ).show(context);
 
   
-
 ```
 
   
@@ -325,27 +334,22 @@ autoDismiss:  true
 
 CherryToast(
 
-icon:  Icon(Icons.car_repair),
+icon:  Icons.car_repair,
 
 themeColor:  Colors.green,
 
-title:  "",
+description: const Text("هذا مثال تصميم من اليمين",  style:  TextStyle(color:  Colors.black)),
 
-displayTitle:  false,
+toastPosition:  Position.bottom,
 
-description:  "هذا مثال تصميم من اليمين",
+layout:  ToastLayout.rtl,
 
-toastPosition:  POSITION.BOTTOM,
+animationType:  AnimationType.fromRight,
 
-layout:  TOAST_LAYOUT.RTL,
+action: const Text("انقر هنا", style:  TextStyle(color:  Colors.green)),
 
-animationType:  ANIMATION_TYPE.FROM_RIGHT,
 
-action:  "انقر هنا",
-
-actionStyle:  TextStyle(color:  Colors.green),
-
-animationDuration:  Duration(milliseconds:  1000),
+animationDuration: const Duration(milliseconds:  1000),
 
 autoDismiss:  true)
 
